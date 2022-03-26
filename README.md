@@ -41,7 +41,7 @@ Now, we can use `NetworkTMLE` to estimate the causal conditional mean under a st
 policy sets everyone's probability of action `A=1` to 0.65.
 
 ```python
-ntmle = NetworkTMLE(network=H,     # NetworkX graph
+ntmle = NetworkTMLE(network=graph_observed,
                     exposure='A',  # Exposure in graph
                     outcome='Y',   # Outcome in graph
                     verbose=True)  # Print model summaries
