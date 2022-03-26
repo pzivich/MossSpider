@@ -6,6 +6,9 @@ MossSpider provides an implementation of the targeted maximum likelihood estimat
 (network-TMLE) in Python. Currently `mossspider` supports estimation of the conditional network mean for stochastic
 policies.
 
+`mossspider` get its name from the [spruce-fir moss spider](https://en.wikipedia.org/wiki/Spruce-fir_moss_spider), a
+tarantula that is both the world's smallest tarantula and native to North Carolina.
+
 ## Installation
 
 ### Installing:

@@ -35,7 +35,7 @@ def sm_network():
 @pytest.fixture
 def r_network():
     """Loads network from the R library tmlenet for comparison"""
-    df = pd.read_csv("tmlenet_r_data.csv")
+    df = pd.read_csv("tests/tmlenet_r_data.csv")
     df['IDs'] = df['IDs'].str[1:].astype(int)
     df['NETID_split'] = df['Net_str'].str.split()
 
