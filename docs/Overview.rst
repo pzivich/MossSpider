@@ -256,4 +256,4 @@ The diagnostic plot can be generated via
 
 Additional Examples
 -------------------------------
-Additional examples are provided `here<https://github.com/pzivich/MossSpider/tree/main/examples>`_.
+Additional examples are provided `here <https://github.com/pzivich/MossSpider/tree/main/examples>`_.

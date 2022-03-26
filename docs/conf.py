@@ -58,7 +58,7 @@ autodoc_default_options = {
 }
 
 # General information about the project.
-project = "Targentula"
+project = "MossSpider"
 copyright = '2022, Paul Zivich'
 version = get_version()
 release = version

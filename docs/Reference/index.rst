@@ -23,6 +23,7 @@ Data Generation
   :toctree: generated/
 
   uniform_network
+  clustered_power_law_network
   generate_observed
   generate_truth
 

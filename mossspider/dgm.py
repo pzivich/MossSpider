@@ -176,8 +176,8 @@ def generate_observed(graph, seed=None):
 
     .. math::
 
-        A \~ \text{Bernoulli}(\text{expit}(-1.2 + 1.5 W + 0.6 W^s))
-        Y \~ \text{Bernoulli}(\text{expit}(-2.5 + 0.5 A + 1.5 A^s + 1.5 W + 1.5 W^s))
+        A = \text{Bernoulli}(\text{expit}(-1.2 + 1.5 W + 0.6 W^s)) \\
+        Y = \text{Bernoulli}(\text{expit}(-2.5 + 0.5 A + 1.5 A^s + 1.5 W + 1.5 W^s))
 
     Parameters
     ----------
@@ -241,8 +241,8 @@ def generate_truth(graph, p):
 
     .. math::
 
-        A ~ Bernoulli(p)
-        Y ~ Bernoulli(expit(-2.5 + 1.5*W + 0.5*A + 1.5*map(A) + 1.5*map(W)))
+        A = Bernoulli(p) \\
+        Y = Bernoulli(expit(-2.5 + 1.5*W + 0.5*A + 1.5*map(A) + 1.5*map(W)))
 
     Returns
     -------
@@ -264,7 +264,6 @@ def generate_truth(graph, p):
     >>> for i in range(1000):
     >>>     y_mean = generate_truth(graph=G, p=0.5)
     >>>     true_p.append(y_mean)
-    >>>
     >>> np.mean(true_p)  # 'true' value for the stochastic policy
 
     To reduce random error, a large number of replicates should be used

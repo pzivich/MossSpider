@@ -6,7 +6,7 @@ MossSpider
 ``mossspider`` provides an implementation of a targeted maximum likelihood estimator (TMLE) for network-dependent data
 with stochastic policies (network-TMLE) in Python 3.6+. For in-depth details on network-TMLE, see van der Laan (2014),
 Sofrygin and van der Laan (2017), or Ogburn et al. (2017). ``mossspider`` get its name from the
-`spruce-fir moss spider<https://en.wikipedia.org/wiki/Spruce-fir_moss_spider>`_, a tarantula that is both the world's
+`spruce-fir moss spider <https://en.wikipedia.org/wiki/Spruce-fir_moss_spider>`_, a tarantula that is both the world's
 smallest tarantula and native to North Carolina.
 
 Network-TMLE is an estimator for causal effects with network-dependent data. Network-TMLE here further relies on a
@@ -21,10 +21,7 @@ network. This estimand can be written as
 
 .. math::
 
-    \psi = \frac{1}{n} \sum_{i=1}^{n} E \left[ \sum_{a\in\mathcal{A}, a^s\in\mathcal{A}^s
-    Y_i(a,a^s)
-    \Pr^*(A_i=a, A_i^s=a^s | W_i, W_i^s) | \mathbf{W}
-    \right]
+    \psi = \frac{1}{n} \sum_{i=1}^{n} E \left[ \sum_{a\in\mathcal{A}, a^s\in\mathcal{A}^s Y_i(a,a^s) \Pr^*(A_i=a, A_i^s=a^s | W_i, W_i^s) | \mathbf{W} \right]
 
 where :math:`A_i` is the action of interest for unit :math:`i` (with :math:`\mathcal{A}` indicating the support),
 :math:`A_i^s` is a generic summary measure of the actions of :math:`i`'s immediate contacts ((with :math:`\mathcal{A}^s`
@@ -39,7 +36,7 @@ positivity. Respectively, these are written as
 .. math::
 
     \text{If } A_i=a, A_i^s=a^s \text{ then } Y_i = Y_i(a,a^s) \\
-    Y(a,a^s) \ind A,A^s | W,W^s \text{ for all } a \in \mathcal{A}, a^s \in \mathcal{A}^s \\
+    Y(a,a^s) \amalg A,A^s | W,W^s \text{ for all } a \in \mathcal{A}, a^s \in \mathcal{A}^s \\
     \text{If } \Pr^*(A=a,A^s=a^s | W,W^s) > 0 \text{ then } \Pr(A=a,A^s=a^s | W,W^s) > 0 \text{ for all } a,a^s
 
 These assumptions further require that (1) the network is perfectly measured, and (2) the parametric from of the summary
@@ -72,7 +69,7 @@ Contents:
   Overview.rst
   Summary Measures <Summary Measures.rst>
   Reference/index
-  Create a GitHub Issue <https://github.com/pzivich/Deli/issues>
+  Create a GitHub Issue <https://github.com/pzivich/MossSpider/issues>
 
 
 Code and Issue Tracker
