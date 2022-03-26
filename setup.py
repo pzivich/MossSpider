@@ -21,6 +21,7 @@ setup(name='mossspider',
       description='Targeted maximum likelihood estimation for network-dependent data',
       keywords='tmle network',
       packages=['mossspider',
+                'mossspider.estimators'
                 ],
       include_package_data=True,
       license='MIT',
