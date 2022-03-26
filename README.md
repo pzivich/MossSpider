@@ -1,5 +1,7 @@
 ![mossspider](docs/images/mossspider_header.png)
 
+![tests](https://github.com/pzivich/MossSpider/actions/workflows/python-package.yml/badge.svg)
+
 # MossSpider
 
 MossSpider provides an implementation of the targeted maximum likelihood estimator for network-dependent data
