@@ -1,0 +1,7 @@
+numpy
+scipy
+pandas
+networkx>=2.0.0
+matplotlib
+statsmodels
+patsy

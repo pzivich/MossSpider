@@ -1,0 +1,10 @@
+README.md
+setup.py
+mossspider/__init__.py
+mossspider/dgm.py
+mossspider/version.py
+mossspider.egg-info/PKG-INFO
+mossspider.egg-info/SOURCES.txt
+mossspider.egg-info/dependency_links.txt
+mossspider.egg-info/requires.txt
+mossspider.egg-info/top_level.txt
