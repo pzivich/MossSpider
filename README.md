@@ -1,6 +1,9 @@
 ![mossspider](docs/images/mossspider_header.png)
 
 ![tests](https://github.com/pzivich/MossSpider/actions/workflows/python-package.yml/badge.svg)
+[![version](https://badge.fury.io/py/mossspider.svg)](https://badge.fury.io/py/mossspider)
+[![docs](https://readthedocs.org/projects/mossspider/badge/?version=latest)](https://mossspider.readthedocs.io/en/latest/?badge=latest)
+[![Downloads](https://pepy.tech/badge/mossspider/month)](https://pepy.tech/project/mossspider)
 
 # MossSpider
 
