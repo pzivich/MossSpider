@@ -54,7 +54,7 @@ class NetworkTMLE:
 
     Note
     ----
-    `Targetula` calculates exposure mapping variables automatically with the input network. These variables are
+    ``mossspider`` calculates exposure mapping variables automatically with the input network. These variables are
     saved as variable-name_map. So for a variable `'A'`, the newly created exposure mapping variable calculated is
     `'A_map'`
 
@@ -640,21 +640,39 @@ class NetworkTMLE:
               np.round(self.conditional_latent_ci, decimals=decimal))
         print('======================================================================')
 
-    def diagnostics(self):
-        """Returns diagnostics for the specified network-TMLE.
+    def diagnostics(self, figsize=(6, 5), color_a1='blue', color_a0='red'):
+        r"""Returns diagnostic plot for the specified network-TMLE. The currently available diagnostic presents plots of
+        the designated summary measure for :math:`A^s` (stratified by :math:`A`) for the observed data, and the Monte
+        Carlo simulated data. This diagnostic can be used to visually assess whether the designated policy is
+        poorly-supported by the data.
+
+        Note
+        ----
+        A policy that has little overlap with the observed data is indicative of the policy being poorly supported by
+        the observed data. Poorly-supported policies may not be well estimated and thus considering other stochastic
+        policies in recommended.
 
         Parameters
         ----------
+        figsize : list, set, array, optional
+            Determine the figure size (dimensions). Passes directly to ``plt.subplots(...figsize=figsize)``.
+        color_a1 : str, optional
+            Color for the A=1 group in the figure. Default is blue.
+        color_a0 : str, optional
+            Color for the A=0 group in the figure. Default is red.
 
         Returns
         -------
-        Various diagnostics
+        Diagnostic plot for data support of policy.
         """
         # Extract the summary measures, stratified by A_i, from the observed and MC simulated data
         obs_a1 = self.df_restricted.loc[self.df_restricted[self.exposure] == 1, self._gs_measure_].copy()
         obs_a0 = self.df_restricted.loc[self.df_restricted[self.exposure] == 0, self._gs_measure_].copy()
         sim_a1 = self._for_diagnostics_.loc[self._for_diagnostics_[self.exposure] == 1, self._gs_measure_].copy()
         sim_a0 = self._for_diagnostics_.loc[self._for_diagnostics_[self.exposure] == 0, self._gs_measure_].copy()
+
+        # Generic figure setup
+        fig, ax = plt.subplots(nrows=2, figsize=figsize)
 
         # If provided a summary measure of None, sum, or threshold
         if self._exposure_measure_ in [None, "sum"] or self._exposure_measure_[0] == "t":
@@ -663,30 +681,29 @@ class NetworkTMLE:
                                 np.max(self._for_diagnostics_[self._gs_measure_])]))
 
             # Plotting: Observed values
-            plt.subplot(211)
             pa1 = obs_a1.value_counts(normalize=True, dropna=True, ascending=True)
-            plt.bar([x-0.2 for x in pa1.index], pa1, width=0.4, color='blue', label=r"$A=1$")
+            ax[0].bar([x-0.2 for x in pa1.index], pa1, width=0.4, color=color_a1, label=r"$A=1$")
             pa0 = obs_a0.value_counts(normalize=True, dropna=True, ascending=True)
-            plt.bar([x+0.2 for x in pa0.index], pa0, width=0.4, color='red', label=r"$A=0$")
-            plt.xticks([x for x in range(min_x, max_x+1)], ["" for x in range(min_x, max_x+1)])
-            plt.xlim([min_x-1, max_x+1])
-            plt.ylim([0, 1])
-            plt.ylabel("Proportion")
-            plt.title("Observed")
-            plt.legend()
+            ax[0].bar([x+0.2 for x in pa0.index], pa0, width=0.4, color=color_a0, label=r"$A=0$")
+            ax[0].set_xticks([x for x in range(min_x, max_x+1)])
+            ax[0].set_xticklabels(["" for x in range(min_x, max_x+1)])
+            ax[0].set_xlim([min_x-1, max_x+1])
+            ax[0].set_ylim([0, 1])
+            ax[0].set_ylabel("Proportion")
+            ax[0].set_title("Observed")
+            ax[0].legend()
 
             # Plotting: Policy
-            plt.subplot(212)
             qa1 = sim_a1.value_counts(normalize=True, dropna=True, ascending=True)
-            plt.bar([x-0.2 for x in qa1.index], qa1, width=0.4, color='blue')
+            ax[1].bar([x-0.2 for x in qa1.index], qa1, width=0.4, color=color_a1)
             qa0 = sim_a0.value_counts(normalize=True, dropna=True, ascending=True)
-            plt.bar([x+0.2 for x in qa0.index], qa0, width=0.4, color='red')
-            plt.xticks([x for x in range(min_x, max_x+1)])
-            plt.xlim([min_x-1, max_x+1])
-            plt.xlabel(r"$A^s$")
-            plt.ylim([0, 1])
-            plt.ylabel("Proportion")
-            plt.title(r"Under $\alpha$")
+            ax[1].bar([x+0.2 for x in qa0.index], qa0, width=0.4, color=color_a0)
+            ax[1].set_xticks([x for x in range(min_x, max_x+1)])
+            ax[1].set_xlim([min_x-1, max_x+1])
+            ax[1].set_xlabel(r"$A^s$")
+            ax[1].set_ylim([0, 1])
+            ax[1].set_ylabel("Proportion")
+            ax[1].set_title(r"Under $\omega$")
 
         # Otherwise, plot as a density plot for other summary measures
         else:
@@ -703,38 +720,35 @@ class NetworkTMLE:
             xvals = np.linspace(min_x, max_x, num=200)   # Creating values to fill-in between
 
             # Plotting: Observed values
-            plt.subplot(211)
             pa1 = gaussian_kde(obs_a1.dropna())
             pa0 = gaussian_kde(obs_a0.dropna())
-            plt.fill_between(xvals, pa0(xvals), color='red', alpha=0.2, label=None)
-            plt.fill_between(xvals, pa1(xvals), color='blue', alpha=0.2, label=None)
-            plt.plot(xvals, pa0(xvals), color='red', alpha=1, label=r'$A=0$')
-            plt.plot(xvals, pa1(xvals), color='blue', alpha=1, label=r'$A=1$')
-            plt.xticks(xticks, ["" for x in range(len(xticks))])
-            plt.xlim([min_x, max_x])
-            plt.ylabel("Density")
-            plt.yticks([])
-            plt.title("Observed")
-            plt.legend()
+            ax[0].fill_between(xvals, pa1(xvals), color=color_a1, alpha=0.2, label=None)
+            ax[0].fill_between(xvals, pa0(xvals), color=color_a0, alpha=0.2, label=None)
+            ax[0].plot(xvals, pa1(xvals), color=color_a1, alpha=1, label=r'$A=1$')
+            ax[0].plot(xvals, pa0(xvals), color=color_a0, alpha=1, label=r'$A=0$')
+            ax[0].set_xticks(xticks)
+            ax[0].set_xticklabels(["" for x in range(len(xticks))])
+            ax[0].set_xlim([min_x, max_x])
+            ax[0].set_ylabel("Density")
+            ax[0].set_yticks([])
+            ax[0].set_title("Observed")
+            ax[0].legend()
 
             # Plotting: Policy values
-            plt.subplot(212)
             qa1 = gaussian_kde(sim_a1.dropna())
             qa0 = gaussian_kde(sim_a0.dropna())
-            plt.fill_between(xvals, qa0(xvals), color='red', alpha=0.2, label=None)
-            plt.fill_between(xvals, qa1(xvals), color='blue', alpha=0.2, label=None)
-            plt.plot(xvals, qa0(xvals), color='red', alpha=1)
-            plt.plot(xvals, qa1(xvals), color='blue', alpha=1)
-            plt.xticks(xticks)
-            plt.xlim([min_x, max_x])
-            plt.xlabel(r"$A^s$")
-            plt.ylabel("Density")
-            plt.yticks([])
-            plt.title(r"Under $\alpha$")
+            ax[1].fill_between(xvals, qa1(xvals), color=color_a1, alpha=0.2, label=None)
+            ax[1].fill_between(xvals, qa0(xvals), color=color_a0, alpha=0.2, label=None)
+            ax[1].plot(xvals, qa1(xvals), color=color_a1, alpha=1)
+            ax[1].plot(xvals, qa0(xvals), color=color_a0, alpha=1)
+            ax[1].set_xticks(xticks)
+            ax[1].set_xlim([min_x, max_x])
+            ax[1].set_xlabel(r"$A^s$")
+            ax[1].set_ylabel("Density")
+            ax[1].set_yticks([])
+            ax[1].set_title(r"Under $\alpha$")
 
-        # Displaying results directly (not returning axes currently).
-        plt.tight_layout()
-        plt.show()
+        return ax
 
     def define_threshold(self, variable, threshold):
         """Function arbitrarily allows for multiple different defined thresholds
