@@ -58,4 +58,4 @@ ntmle.summary()
 ```
 
 For full details on using `mossspider`, see the full documentation and worked examples available
-at [MossSpider website](https://deli.readthedocs.io/en/latest/).
+at [MossSpider website](https://mossspider.readthedocs.io/en/latest/).
