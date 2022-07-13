@@ -26,4 +26,7 @@ ntmle.outcome_model(model='A + A_sum + W + W_sum')
 ntmle.fit(p=0.15, samples=100, seed=101)
 print('time:', time.time() - start)
 
+ntmle.diagnostics()
+plt.show()
+
 ntmle.summary()
